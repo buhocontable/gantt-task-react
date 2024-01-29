@@ -3,6 +3,7 @@
   border-bottom: #e6e4e4 1px solid;
   border-top: #e6e4e4 1px solid;
   border-left: #e6e4e4 1px solid;
+  width: "100%";
 }
 
 .ganttTable_Header {
@@ -18,6 +19,7 @@
 
 .ganttTable_HeaderItem {
   display: table-cell;
+  width: "100%";
   vertical-align: -webkit-baseline-middle;
   vertical-align: middle;
 }

@@ -24,7 +24,7 @@ export function initTasks() {
       ),
       name: "Idea",
       id: "Task 0",
-      progress: 45,
+      progress: 0,
       type: "task",
       project: "ProjectSample",
       displayOrder: 2,
