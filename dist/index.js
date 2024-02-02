@@ -379,7 +379,7 @@ var TaskListTableDefault = function TaskListTableDefault(_ref) {
       style: {
         minWidth: rowWidth,
         maxWidth: rowWidth,
-        padding: "16px"
+        padding: "15px"
       },
       title: t.name
     }, React__default.createElement("div", {
