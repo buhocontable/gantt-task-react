@@ -23,7 +23,6 @@
     "react-dom": "file:../node_modules/react-dom",
     "react-scripts": "file:../node_modules/react-scripts"
   },
-  "devDependencies": {},
   "browserslist": {
     "production": [
       ">0.2%",

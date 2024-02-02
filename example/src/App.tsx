@@ -6,7 +6,7 @@ import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
-  const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
+  const [view, setView] = React.useState<ViewMode>(ViewMode.Month);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
   let columnWidth = 65;
@@ -83,24 +83,10 @@ const App = () => {
         onProgressChange={handleProgressChange}
         onDoubleClick={handleDblClick}
         onClick={handleClick}
+        ganttWidth={1000}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
-        columnWidth={columnWidth}
-      />
-      <h3>Gantt With Limited Height</h3>
-      <Gantt
-        tasks={tasks}
-        viewMode={view}
-        onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
-        onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
-        onClick={handleClick}
-        onSelect={handleSelect}
-        onExpanderClick={handleExpanderClick}
-        listCellWidth={isChecked ? "155px" : ""}
-        ganttHeight={300}
         columnWidth={columnWidth}
       />
     </div>

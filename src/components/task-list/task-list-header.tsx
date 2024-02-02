@@ -13,6 +13,7 @@ export const TaskListHeaderDefault: React.FC<{
       style={{
         fontFamily: fontFamily,
         fontSize: fontSize,
+        borderLeft: "var(--gtr-border) 1px solid",
       }}
     >
       <div

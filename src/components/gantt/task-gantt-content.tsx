@@ -282,18 +282,20 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
       <g className="bar" fontFamily={fontFamily} fontSize={fontSize}>
         {tasks.map(task => {
           return (
-            <TaskItem
-              task={task}
-              arrowIndent={arrowIndent}
-              taskHeight={taskHeight}
-              isProgressChangeable={!!onProgressChange && !task.isDisabled}
-              isDateChangeable={!!onDateChange && !task.isDisabled}
-              isDelete={!task.isDisabled}
-              onEventStart={handleBarEventStart}
-              key={task.id}
-              isSelected={!!selectedTask && task.id === selectedTask.id}
-              rtl={rtl}
-            />
+            task.type !== "project" && (
+              <TaskItem
+                task={task}
+                arrowIndent={arrowIndent}
+                taskHeight={taskHeight}
+                isProgressChangeable={!!onProgressChange && !task.isDisabled}
+                isDateChangeable={!!onDateChange && !task.isDisabled}
+                isDelete={!task.isDisabled}
+                onEventStart={handleBarEventStart}
+                key={task.id}
+                isSelected={!!selectedTask && task.id === selectedTask.id}
+                rtl={rtl}
+              />
+            )
           );
         })}
       </g>

@@ -32,6 +32,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   rowHeight = 50,
   ganttHeight = 0,
   viewMode = ViewMode.Day,
+  ganttWidth = 0,
   preStepsCount = 1,
   locale = "en-GB",
   barFill = 60,
@@ -91,11 +92,13 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [selectedTask, setSelectedTask] = useState<BarTask>();
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
-  const svgWidth = dateSetup.dates.length * columnWidth;
+  const svgWidth = Math.max(dateSetup.dates.length * columnWidth, ganttWidth);
   const ganttFullHeight = barTasks.length * rowHeight;
 
   const [scrollY, setScrollY] = useState(0);
-  const [scrollX, setScrollX] = useState(-1);
+  const [scrollX, setScrollX] = useState(
+    (dateSetup.dates.length - 13) * columnWidth
+  );
   const [ignoreScrollEvent, setIgnoreScrollEvent] = useState(false);
 
   // task change events
@@ -401,6 +404,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     locale,
     viewMode,
     headerHeight,
+    svgWidth,
     columnWidth,
     fontFamily,
     fontSize,

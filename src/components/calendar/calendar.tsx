@@ -1,4 +1,4 @@
-import React, { ReactChild } from "react";
+import React, { ReactChild, useRef } from "react";
 import { ViewMode } from "../../types/public-types";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
 import {
@@ -17,6 +17,7 @@ export type CalendarProps = {
   viewMode: ViewMode;
   rtl: boolean;
   headerHeight: number;
+  svgWidth: number;
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
@@ -28,6 +29,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   viewMode,
   rtl,
   headerHeight,
+  svgWidth,
   columnWidth,
   fontFamily,
   fontSize,
@@ -38,7 +40,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     const topDefaultHeight = headerHeight * 0.5;
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
-      const bottomValue = date.getFullYear();
+      const bottomValue = date.toLocaleDateString(locale, { year: "numeric" });
+
       bottomValues.push(
         <text
           key={date.getTime()}
@@ -84,6 +87,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       const date = dateSetup.dates[i];
       // const bottomValue = getLocaleMonth(date, locale);
       const quarter = "Q" + Math.floor((date.getMonth() + 3) / 3);
+
       bottomValues.push(
         <text
           key={date.getTime()}
@@ -98,7 +102,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         i === 0 ||
         date.getFullYear() !== dateSetup.dates[i - 1].getFullYear()
       ) {
-        const topValue = date.getFullYear().toString();
+        const topValue = date.toLocaleDateString(locale, { year: "numeric" });
         let xText: number;
         if (rtl) {
           xText = (6 + i + date.getMonth() + 1) * columnWidth;
@@ -128,6 +132,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
       const bottomValue = getLocaleMonth(date, locale);
+      const bottomYearValue = date.getFullYear().toString();
       bottomValues.push(
         <text
           key={bottomValue + date.getFullYear()}
@@ -135,7 +140,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
         >
-          {bottomValue}
+          {bottomValue} {bottomYearValue}
         </text>
       );
       if (
@@ -148,6 +153,14 @@ export const Calendar: React.FC<CalendarProps> = ({
           xText = (6 + i + date.getMonth() + 1) * columnWidth;
         } else {
           xText = (6 + i - date.getMonth()) * columnWidth;
+          // When Gantt chart start in the July
+          // Only half of year is visible
+          if (i === 0 && date.getMonth() === 6) {
+            // If default font family and size is used
+            // year label is circa 32px wide
+            // half of it is 16 so moving it by 20 make it fully visible with margin.
+            xText += 20;
+          }
         }
         topValues.push(
           <TopPartOfCalendar
@@ -365,7 +378,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       [topValues, bottomValues] = getCalendarValuesForQuarterYear();
       break;
     case ViewMode.Month:
-      [topValues, bottomValues] = getCalendarValuesForMonth();
+      [, bottomValues] = getCalendarValuesForMonth();
       break;
     case ViewMode.Week:
       [topValues, bottomValues] = getCalendarValuesForWeek();
@@ -380,12 +393,13 @@ export const Calendar: React.FC<CalendarProps> = ({
     case ViewMode.Hour:
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
+
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
       <rect
         x={0}
         y={0}
-        width={columnWidth * dateSetup.dates.length}
+        width={svgWidth}
         height={headerHeight}
         className={styles.calendarHeader}
       />
