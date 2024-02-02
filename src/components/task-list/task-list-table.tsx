@@ -72,7 +72,7 @@ export const TaskListTableDefault: React.FC<{
               style={{
                 minWidth: rowWidth,
                 maxWidth: rowWidth,
-                padding: "15px",
+                padding: "16px",
               }}
               title={t.name}
             >
