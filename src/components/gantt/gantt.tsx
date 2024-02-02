@@ -96,9 +96,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const ganttFullHeight = barTasks.length * rowHeight;
 
   const [scrollY, setScrollY] = useState(0);
-  const [scrollX, setScrollX] = useState(
-    (dateSetup.dates.length - 13) * columnWidth
-  );
+  const [scrollX, setScrollX] = useState(dateSetup.dates.length * columnWidth);
   const [ignoreScrollEvent, setIgnoreScrollEvent] = useState(false);
 
   // task change events

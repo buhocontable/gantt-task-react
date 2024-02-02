@@ -108,7 +108,7 @@ export const ganttDateRange = (
       if (!postStepsCount) {
         newEndDate = startOfDate(newEndDate, "year");
       }
-      newEndDate = addToDate(newEndDate, postStepsCount! || 12, "month");
+      newEndDate = addToDate(newEndDate, postStepsCount! || 2, "month");
       break;
     case ViewMode.Week:
       newStartDate = startOfDate(newStartDate, "day");
