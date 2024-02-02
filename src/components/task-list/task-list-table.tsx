@@ -64,7 +64,7 @@ export const TaskListTableDefault: React.FC<{
         return (
           <div
             className={styles.taskListTableRow}
-            style={{ height: rowHeight }}
+            style={{ height: rowHeight, border: "1px solid red" }}
             key={`${t.id}row`}
           >
             <div
@@ -72,6 +72,7 @@ export const TaskListTableDefault: React.FC<{
               style={{
                 minWidth: rowWidth,
                 maxWidth: rowWidth,
+                padding: "16px",
               }}
               title={t.name}
             >
