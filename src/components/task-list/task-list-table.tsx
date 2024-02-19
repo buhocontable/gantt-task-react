@@ -61,10 +61,12 @@ export const TaskListTableDefault: React.FC<{
           expanderSymbol = "▶";
         }
 
+        console.log("task", t);
+
         return (
           <div
             className={styles.taskListTableRow}
-            style={{ height: rowHeight, border: "1px solid red" }}
+            style={{ height: rowHeight }}
             key={`${t.id}row`}
           >
             <div
@@ -87,7 +89,13 @@ export const TaskListTableDefault: React.FC<{
                 >
                   {expanderSymbol}
                 </div>
-                <div>{t.name}</div>
+                <div
+                  style={{
+                    fontWeight: t.type === "project" ? "bold" : "normal",
+                  }}
+                >
+                  {t.name}
+                </div>
               </div>
             </div>
           </div>
