@@ -61,8 +61,6 @@ export const TaskListTableDefault: React.FC<{
           expanderSymbol = "▶";
         }
 
-        console.log("task", t);
-
         return (
           <div
             className={styles.taskListTableRow}

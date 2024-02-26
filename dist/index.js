@@ -2,6 +2,8 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = require('react');
 var React__default = _interopDefault(React);
+var dayjs = _interopDefault(require('dayjs'));
+require('dayjs/locale/es');
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -148,7 +150,7 @@ var ganttDateRange = function ganttDateRange(tasks, viewMode, preStepsCount, pos
         newEndDate = startOfDate(newEndDate, "year");
       }
 
-      newEndDate = addToDate(newEndDate, postStepsCount || 2, "month");
+      newEndDate = addToDate(newEndDate, postStepsCount || 4, "month");
       break;
 
     case exports.ViewMode.Week:
@@ -255,7 +257,7 @@ var seedDates = function seedDates(startDate, endDate, viewMode) {
 };
 var getLocaleMonth = function getLocaleMonth(date, locale) {
   var bottomValue = getCachedDateTimeFormat(locale, {
-    month: "long"
+    month: "short"
   }).format(date);
   bottomValue = bottomValue.replace(bottomValue[0], bottomValue[0].toLocaleUpperCase());
   return bottomValue;
@@ -297,7 +299,7 @@ var getDaysInMonth = function getDaysInMonth(month, year) {
   return new Date(year, month + 1, 0).getDate();
 };
 
-var styles = {"ganttTable":"_3_ygE","ganttTable_Header":"_1nBOt","ganttTable_HeaderSeparator":"_2eZzQ","ganttTable_HeaderItem":"_WuQ0f"};
+var styles = {"ganttTable":"_task-list-header-module__ganttTable__3_ygE","ganttTable_Header":"_task-list-header-module__ganttTable_Header__1nBOt","ganttTable_HeaderSeparator":"_task-list-header-module__ganttTable_HeaderSeparator__2eZzQ","ganttTable_HeaderItem":"_task-list-header-module__ganttTable_HeaderItem__WuQ0f"};
 
 var TaskListHeaderDefault = function TaskListHeaderDefault(_ref) {
   var headerHeight = _ref.headerHeight,
@@ -324,7 +326,7 @@ var TaskListHeaderDefault = function TaskListHeaderDefault(_ref) {
   }, "\xA0")));
 };
 
-var styles$1 = {"taskListWrapper":"_3ZbQT","taskListTableRow":"_34SS0","taskListCell":"_3lLk3","taskListNameWrapper":"_nI1Xw","taskListExpander":"_2QjE6","taskListEmptyExpander":"_2TfEi"};
+var styles$1 = {"taskListWrapper":"_task-list-table-module__taskListWrapper__3ZbQT","taskListTableRow":"_task-list-table-module__taskListTableRow__34SS0","taskListCell":"_task-list-table-module__taskListCell__3lLk3","taskListNameWrapper":"_task-list-table-module__taskListNameWrapper__nI1Xw","taskListExpander":"_task-list-table-module__taskListExpander__2QjE6","taskListEmptyExpander":"_task-list-table-module__taskListEmptyExpander__2TfEi"};
 
 var localeDateStringCache = {};
 
@@ -367,7 +369,6 @@ var TaskListTableDefault = function TaskListTableDefault(_ref) {
       expanderSymbol = "▶";
     }
 
-    console.log("task", t);
     return React__default.createElement("div", {
       className: styles$1.taskListTableRow,
       style: {
@@ -397,7 +398,7 @@ var TaskListTableDefault = function TaskListTableDefault(_ref) {
   }));
 };
 
-var styles$2 = {"tooltipDefaultContainer":"_3T42e","tooltipDefaultContainerParagraph":"_29NTg","tooltipDetailsContainer":"_25P-K","tooltipDetailsContainerHidden":"_3gVAq"};
+var styles$2 = {"tooltipDefaultContainer":"_tooltip-module__tooltipDefaultContainer__3T42e","tooltipDefaultContainerParagraph":"_tooltip-module__tooltipDefaultContainerParagraph__29NTg","tooltipDetailsContainer":"_tooltip-module__tooltipDetailsContainer__25P-K","tooltipDetailsContainerHidden":"_tooltip-module__tooltipDetailsContainerHidden__3gVAq"};
 
 var Tooltip = function Tooltip(_ref) {
   var task = _ref.task,
@@ -491,6 +492,14 @@ var StandardTooltipContent = function StandardTooltipContent(_ref2) {
     fontSize: fontSize,
     fontFamily: fontFamily
   };
+  var startDate = dayjs(task.start);
+  var endDate = dayjs(task.end);
+  var formattedStartDate = dayjs(task.start).format("DD MMMM [de] YYYY");
+  var formattedEndDate = dayjs(task.end).format("DD MMMM [de] YYYY");
+  var durationInDays = dayjs(endDate).diff(startDate, "day");
+  var durationInMonths = dayjs(endDate).diff(startDate, "month");
+  var durationInYears = dayjs(endDate).diff(startDate, "year");
+  var duration = durationInYears + " a\xF1os, " + durationInMonths % 12 + " " + (durationInMonths === 1 ? "mes" : "meses") + " y " + durationInDays % 30 + " " + (durationInDays === 1 ? "día" : "días");
   return React__default.createElement("div", {
     className: styles$2.tooltipDefaultContainer,
     style: style
@@ -498,14 +507,14 @@ var StandardTooltipContent = function StandardTooltipContent(_ref2) {
     style: {
       fontSize: fontSize + 6
     }
-  }, task.name + ": " + task.start.getDate() + "-" + (task.start.getMonth() + 1) + "-" + task.start.getFullYear() + " - " + task.end.getDate() + "-" + (task.end.getMonth() + 1) + "-" + task.end.getFullYear()), task.end.getTime() - task.start.getTime() !== 0 && React__default.createElement("p", {
+  }, task.name + ": De " + formattedStartDate + " hasta " + formattedEndDate), task.end.getTime() - task.start.getTime() !== 0 && React__default.createElement("p", {
     className: styles$2.tooltipDefaultContainerParagraph
-  }, "Duration: " + ~~((task.end.getTime() - task.start.getTime()) / (1000 * 60 * 60 * 24)) + " day(s)"), React__default.createElement("p", {
+  }, "Duraci\xF3n: " + duration), React__default.createElement("p", {
     className: styles$2.tooltipDefaultContainerParagraph
   }, !!task.progress && "Progress: " + task.progress + " %"));
 };
 
-var styles$3 = {"scroll":"_1eT-t"};
+var styles$3 = {"scroll":"_vertical-scroll-module__scroll__1eT-t"};
 
 var VerticalScroll = function VerticalScroll(_ref) {
   var scroll = _ref.scroll,
@@ -589,7 +598,7 @@ var TaskList = function TaskList(_ref) {
   }, React__default.createElement(TaskListTable, Object.assign({}, tableProps))));
 };
 
-var styles$4 = {"gridRow":"_2dZTy","gridRowLine":"_3rUKi","gridTick":"_RuwuK"};
+var styles$4 = {"gridRow":"_grid-module__gridRow__2dZTy","gridRowLine":"_grid-module__gridRowLine__3rUKi","gridTick":"_grid-module__gridTick__RuwuK"};
 
 var GridBody = function GridBody(_ref) {
   var tasks = _ref.tasks,
@@ -689,7 +698,7 @@ var Grid = function Grid(props) {
   }, React__default.createElement(GridBody, Object.assign({}, props)));
 };
 
-var styles$5 = {"calendarBottomText":"_9w8d5","calendarTopTick":"_1rLuZ","calendarTopText":"_2q1Kt","calendarHeader":"_35nLX"};
+var styles$5 = {"calendarBottomText":"_calendar-module__calendarBottomText__9w8d5","calendarTopTick":"_calendar-module__calendarTopTick__1rLuZ","calendarTopText":"_calendar-module__calendarTopText__2q1Kt","calendarHeader":"_calendar-module__calendarHeader__35nLX"};
 
 var TopPartOfCalendar = function TopPartOfCalendar(_ref) {
   var value = _ref.value,
@@ -824,7 +833,7 @@ var Calendar = function Calendar(_ref) {
         y: headerHeight * 0.8,
         x: columnWidth * i + columnWidth * 0.5,
         className: styles$5.calendarBottomText
-      }, bottomValue, " ", bottomYearValue));
+      }, bottomValue.toUpperCase(), " ", bottomYearValue));
 
       if (i === 0 || date.getFullYear() !== dateSetup.dates[i - 1].getFullYear()) {
         var topValue = date.getFullYear().toString();
@@ -1577,7 +1586,7 @@ var sortTasks = function sortTasks(taskA, taskB) {
   }
 };
 
-var styles$6 = {"barWrapper":"_KxSXS","barHandle":"_3w_5u","barBackground":"_31ERP"};
+var styles$6 = {"barWrapper":"_bar-module__barWrapper__KxSXS","barHandle":"_bar-module__barHandle__3w_5u","barBackground":"_bar-module__barBackground__31ERP"};
 
 var BarDisplay = function BarDisplay(_ref) {
   var x = _ref.x,
@@ -1736,7 +1745,7 @@ var BarSmall = function BarSmall(_ref) {
   })));
 };
 
-var styles$7 = {"milestoneWrapper":"_RRr13","milestoneBackground":"_2P2B1"};
+var styles$7 = {"milestoneWrapper":"_milestone-module__milestoneWrapper__RRr13","milestoneBackground":"_milestone-module__milestoneBackground__2P2B1"};
 
 var Milestone = function Milestone(_ref) {
   var task = _ref.task,
@@ -1768,7 +1777,7 @@ var Milestone = function Milestone(_ref) {
   }));
 };
 
-var styles$8 = {"projectWrapper":"_1KJ6x","projectBackground":"_2RbVy","projectTop":"_2pZMF"};
+var styles$8 = {"projectWrapper":"_project-module__projectWrapper__1KJ6x","projectBackground":"_project-module__projectBackground__2RbVy","projectTop":"_project-module__projectTop__2pZMF"};
 
 var Project = function Project(_ref) {
   var task = _ref.task,
@@ -1818,7 +1827,7 @@ var Project = function Project(_ref) {
   }));
 };
 
-var style = {"barLabel":"_3zRJQ","barLabelOutside":"_3KcaM"};
+var style = {"barLabel":"_task-list-module__barLabel__3zRJQ","barLabelOutside":"_task-list-module__barLabelOutside__3KcaM"};
 
 var TaskItem = function TaskItem(props) {
   var _props = _extends({}, props),
@@ -2180,7 +2189,7 @@ var TaskGanttContent = function TaskGanttContent(_ref) {
   })));
 };
 
-var styles$9 = {"ganttVerticalContainer":"_CZjuD","horizontalContainer":"_2B2zv","wrapper":"_3eULf"};
+var styles$9 = {"ganttVerticalContainer":"_gantt-module__ganttVerticalContainer__CZjuD","horizontalContainer":"_gantt-module__horizontalContainer__2B2zv","wrapper":"_gantt-module__wrapper__3eULf"};
 
 var TaskGantt = function TaskGantt(_ref) {
   var gridProps = _ref.gridProps,
@@ -2234,7 +2243,7 @@ var TaskGantt = function TaskGantt(_ref) {
   }, React__default.createElement(Grid, Object.assign({}, gridProps)), React__default.createElement(TaskGanttContent, Object.assign({}, newBarProps)))));
 };
 
-var styles$a = {"scrollWrapper":"_2k9Ys","scroll":"_19jgW"};
+var styles$a = {"scrollWrapper":"_horizontal-scroll-module__scrollWrapper__2k9Ys","scroll":"_horizontal-scroll-module__scroll__19jgW"};
 
 var HorizontalScroll = function HorizontalScroll(_ref) {
   var scroll = _ref.scroll,

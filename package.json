@@ -64,6 +64,7 @@
     "dist"
   ],
   "dependencies": {
+    "dayjs": "^1.11.10",
     "rooks": "^7.14.1"
   }
 }

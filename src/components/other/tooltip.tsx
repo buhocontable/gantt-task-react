@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { Task } from "../../types/public-types";
 import { BarTask } from "../../types/bar-task";
 import styles from "./tooltip.module.css";
+import "dayjs/locale/es";
 
 export type TooltipProps = {
   task: BarTask;
@@ -121,20 +123,30 @@ export const StandardTooltipContent: React.FC<{
     fontSize,
     fontFamily,
   };
+
+  const startDate = dayjs(task.start);
+  const endDate = dayjs(task.end);
+
+  const formattedStartDate = dayjs(task.start).format("DD MMMM [de] YYYY");
+  const formattedEndDate = dayjs(task.end).format("DD MMMM [de] YYYY");
+
+  const durationInDays = dayjs(endDate).diff(startDate, "day");
+  const durationInMonths = dayjs(endDate).diff(startDate, "month");
+  const durationInYears = dayjs(endDate).diff(startDate, "year");
+
+  const duration = `${durationInYears} años, ${durationInMonths % 12} ${
+    durationInMonths === 1 ? "mes" : "meses"
+  } y ${durationInDays % 30} ${durationInDays === 1 ? "día" : "días"}`;
+
   return (
     <div className={styles.tooltipDefaultContainer} style={style}>
-      <b style={{ fontSize: fontSize + 6 }}>{`${
-        task.name
-      }: ${task.start.getDate()}-${
-        task.start.getMonth() + 1
-      }-${task.start.getFullYear()} - ${task.end.getDate()}-${
-        task.end.getMonth() + 1
-      }-${task.end.getFullYear()}`}</b>
+      <b
+        style={{ fontSize: fontSize + 6 }}
+      >{`${task.name}: De ${formattedStartDate} hasta ${formattedEndDate}`}</b>
       {task.end.getTime() - task.start.getTime() !== 0 && (
-        <p className={styles.tooltipDefaultContainerParagraph}>{`Duration: ${~~(
-          (task.end.getTime() - task.start.getTime()) /
-          (1000 * 60 * 60 * 24)
-        )} day(s)`}</p>
+        <p
+          className={styles.tooltipDefaultContainerParagraph}
+        >{`Duración: ${duration}`}</p>
       )}
 
       <p className={styles.tooltipDefaultContainerParagraph}>

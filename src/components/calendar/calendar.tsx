@@ -140,7 +140,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
         >
-          {bottomValue} {bottomYearValue}
+          {bottomValue.toUpperCase()} {bottomYearValue}
         </text>
       );
       if (

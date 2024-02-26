@@ -1,6 +1,7 @@
 import React from "react";
 import { Task } from "../../types/public-types";
 import { BarTask } from "../../types/bar-task";
+import "dayjs/locale/es";
 export declare type TooltipProps = {
     task: BarTask;
     arrowIndent: number;
