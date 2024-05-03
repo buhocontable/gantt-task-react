@@ -113,7 +113,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       viewMode,
       preStepsCount
     );
+    console.log(startDate, endDate, viewMode, preStepsCount);
     let newDates = seedDates(startDate, endDate, viewMode);
+    console.log(newDates)
     if (rtl) {
       newDates = newDates.reverse();
       if (scrollX === -1) {
