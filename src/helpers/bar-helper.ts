@@ -248,7 +248,9 @@ const convertToMilestone = (
 
 const taskXCoordinate = (xDate: Date, dates: Date[], columnWidth: number) => {
   const index = dates.findIndex(d => d.getTime() >= xDate.getTime()) - 1;
-
+  console.log(xDate);
+  console.log(dates);
+  console.log(index);
   const remainderMillis = xDate.getTime() - dates[index].getTime();
   const percentOfInterval =
     remainderMillis / (dates[index + 1].getTime() - dates[index].getTime());
