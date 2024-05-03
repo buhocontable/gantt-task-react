@@ -85,7 +85,6 @@ export const ganttDateRange = (
       newEndDate = task.end;
     }
   }
-  console.log(newStartDate, newEndDate, viewMode);
   switch (viewMode) {
     case ViewMode.Year:
       newStartDate = startOfDate(newStartDate, "year");
@@ -108,7 +107,7 @@ export const ganttDateRange = (
       newStartDate = addToDate(newStartDate, -1 * preStepsCount, "month");
       console.log(postStepsCount, "postStepsCount");
       if (!postStepsCount) {
-        newEndDate = startOfDate(newEndDate, "year");
+        // newEndDate = startOfDate(newEndDate, "year");
         console.log(newEndDate, "newEndDate 1");
       }
       newEndDate = addToDate(newEndDate, postStepsCount! || 4, "month");
